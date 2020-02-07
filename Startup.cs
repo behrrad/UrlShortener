@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using urlShortener.Services;
 using Microsoft.EntityFrameworkCore;
 namespace urlShortener
 {
@@ -30,6 +31,7 @@ namespace urlShortener
                 options.UseNpgsql("Host=localhost;Database=url_shortener;Username=postgres;Password='postgres'");
             });
             services.AddControllers();
+            services.AddScoped<ShortenerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

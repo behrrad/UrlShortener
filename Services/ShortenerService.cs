@@ -2,9 +2,7 @@ using urlShortener.Models;
 using System.Linq;
 using System;    
 using System.Text; 
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace urlShortener.Services
@@ -58,6 +56,15 @@ namespace urlShortener.Services
             dbContext.SaveChanges();   
             return shortUrl;
         }
-
+        public string searchForShortUrl(string shortUrl){
+            var search = dbContext.Urls.AnyAsync(p => p.shortUrl == shortUrl);
+            search.Wait();
+            if(!search.Result){
+                return null;
+            }
+            var record = dbContext.Urls.Where(p => p.shortUrl == shortUrl).Single();
+            string longUrl = record.longUrl;
+            return longUrl; 
+        }
     }
 }

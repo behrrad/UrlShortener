@@ -1,10 +1,8 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Mvc;
 using urlShortener.Models;
 using System.Text.RegularExpressions;
 using System;    
-using System.Text; 
 using urlShortener.Services;
 namespace urlShortener.Controllers
 {
@@ -30,8 +28,35 @@ namespace urlShortener.Controllers
             if(!ValidateUrl(longUrl.url)){
                 return BadRequest("in url validate nist");
             }
-            
             return Ok(shortener.setShortUrl(longUrl));
+        }
+    }
+    [Route("/{*subdomain}")]
+    [ApiController]
+    public class UrlRedirect : ControllerBase{
+        public ShortenerService shortener;
+        public UrlRedirect(ShortenerService shortener){
+            this.shortener = shortener;
+        }
+        private bool beginWithScheme(string url){
+            url = url.Trim();
+            Regex pattern = new Regex(@"^(http|https|ftp)://");
+            Match match = pattern.Match(url);
+            if (match.Success == false) {
+                return false;
+            }
+            return true;
+        }
+        [HttpGet]
+        public ActionResult<string> get(string subdomain){
+            string longUrl = shortener.searchForShortUrl(subdomain);
+            if(!String.Equals(longUrl, null)){
+                if(beginWithScheme(longUrl)){
+                    return Redirect(longUrl);
+                }
+                return Redirect("https://" + longUrl);
+            }
+            return NotFound("This url does not exist");
         }
     }
 }
