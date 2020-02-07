@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
+using Microsoft.EntityFrameworkCore;
 namespace urlShortener
 {
     public class Startup
@@ -25,6 +25,10 @@ namespace urlShortener
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseNpgsql("Host=localhost;Database=url_shortener;Username=postgres;Password='postgres'");
+            });
             services.AddControllers();
         }
 
