@@ -9,7 +9,7 @@ namespace tests
 
         private const string API = "http://localhost:5000";
         [Fact]
-        public void Test1()
+        public void TestSimpleUrlWithoutWww()
         {
             new RestAssured()
             .Given()
@@ -25,7 +25,7 @@ namespace tests
               .Assert("test body");
         }
         [Fact]
-        public void Test2()
+        public void TestSimpleUrlWithWww()
         {
             new RestAssured()
             .Given()
@@ -39,7 +39,7 @@ namespace tests
               .Assert("test status");
         }
         [Fact]
-        public void Test3(){
+        public void TestUrlWithHttp(){
             new RestAssured()
             .Given()
               .Name("test post endpoint")
@@ -52,7 +52,7 @@ namespace tests
               .Assert("test status");
         } 
         [Fact]           
-        public void Test4(){
+        public void TestUrlWithHttpAndWww(){
             new RestAssured()
             .Given()
               .Name("test post endpoint")
@@ -66,7 +66,7 @@ namespace tests
             
         }
         [Fact]
-        public void Test5(){
+        public void TestUrlWithHttps(){
             new RestAssured()
             .Given()
               .Name("test post endpoint")
@@ -79,7 +79,7 @@ namespace tests
               .Assert("test status");
         }
         [Fact]
-        public void Test6(){
+        public void TestUrlWithHttpsAndWww(){
             new RestAssured()
             .Given()
               .Name("test post endpoint")
@@ -92,7 +92,7 @@ namespace tests
               .Assert("test status");
         }
         [Fact]
-        public void Test7(){
+        public void DoubleDot(){
             new RestAssured()
             .Given()
               .Name("test post endpoint")
@@ -105,7 +105,7 @@ namespace tests
               .Assert("test status");
         }
         [Fact]
-        public void Test8(){
+        public void TestDoubleDash(){
             new RestAssured()
             .Given()
               .Name("test post endpoint")
@@ -119,7 +119,7 @@ namespace tests
         }
             
         [Fact]
-        public void Test9(){
+        public void TestPersionWord(){
             new RestAssured()
             .Given()
               .Name("test post endpoint")
@@ -131,6 +131,29 @@ namespace tests
               .TestStatus("test status", status => status == 200)
               .Assert("test status");
         }
-        
+        [Fact]
+        public void BadRequestForGet(){
+            new RestAssured()
+            .Given()
+              .Name("test post endpoint")
+              .Header("Content-Type","application/json")
+            .When()
+              .Get(API + "/21AAAAAA")
+            .Then()
+              .TestStatus("test status", status => status == 400)
+              .Assert("test status");
+        }
+        [Fact]
+        public void NotFoundForGet(){
+            new RestAssured()
+            .Given()
+              .Name("test post endpoint")
+              .Header("Content-Type","application/json")
+            .When()
+              .Get(API + "/AAAAAAAA")
+            .Then()
+              .TestStatus("test status", status => status == 404)
+              .Assert("test status");
+        }
     }
 }

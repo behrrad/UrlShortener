@@ -69,7 +69,7 @@ namespace urlShortener.Controllers
                 }
                 return Redirect("https://" + longUrl);
             }
-            return NotFound("This url does not exist");
+            return NotFound();
         }
     }
 }
