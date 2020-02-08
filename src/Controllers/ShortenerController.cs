@@ -16,7 +16,7 @@ namespace urlShortener.Controllers
 
         private bool ValidateUrl(string url){
             url = url.Trim();
-            Regex pattern = new Regex(@"^(?:((http|ftp|https)://))?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$");
+            Regex pattern = new Regex(@"^(?:(?:https?|ftp)://)?[\w.-@]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$");
             Match match = pattern.Match(url);
             if (match.Success == false || (url.Contains("..") || url.Contains("--") || url.Contains("_"))) {   
                 return false;
@@ -26,7 +26,7 @@ namespace urlShortener.Controllers
         [HttpPost]
         public IActionResult shortner([FromBody]SingleUrl longUrl){
             if(!ValidateUrl(longUrl.url)){
-                return BadRequest("in url validate nist");
+                return BadRequest();
             }
             return Ok(new {shortUrl = shortener.setShortUrl(longUrl)} );
         }
@@ -47,9 +47,22 @@ namespace urlShortener.Controllers
             }
             return true;
         }
+        private bool containNumber(string url){
+            for(int i = 0;i<url.Length;i++){
+                if(url[i]>='0' && url[i] <= '9')
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         [HttpGet]
         public ActionResult<string> get(string subdomain){
+            if(containNumber(subdomain)){
+                return BadRequest();
+            }
             string longUrl = shortener.searchForShortUrl(subdomain);
+            
             if(!String.Equals(longUrl, null)){
                 if(beginWithScheme(longUrl)){
                     return Redirect(longUrl);
