@@ -13,17 +13,88 @@ namespace tests
         {
             new RestAssured()
             .Given()
-                .Name("test post endpoint")
-                .Header("Content-Type","application/json")
-                .Body(new {url = "google.com"})
+              .Name("test post endpoint")
+              .Header("Content-Type","application/json")
+              .Body(new {url = "google.com"})
             .When()
-                .Post(API + "/urls")
+              .Post(API + "/urls")
             .Then()
-                .TestStatus("test status", status => {Console.WriteLine(status); return status == 200;} )
-                .Assert("test status")
-                .TestBody("test body", body => ((string)body.shortUrl).Length == 8 )
-                .Assert("test body");
-
+              .TestStatus("test status", status => status == 200)
+              .Assert("test status")
+              .TestBody("test body", body => ((string)body.shortUrl).Length == 8 )
+              .Assert("test body");
         }
+        [Fact]
+        public void Test2()
+        {
+            new RestAssured()
+            .Given()
+              .Name("test post endpoint")
+              .Header("Content-Type","application/json")
+              .Body(new {url = "www.google.com"})
+            .When()
+              .Post(API + "/urls")
+            .Then()
+              .TestStatus("test status", status => status == 200)
+              .Assert("test status");
+        }
+        [Fact]
+        public void Test3(){
+            new RestAssured()
+            .Given()
+              .Name("test post endpoint")
+              .Header("Content-Type","application/json")
+              .Body(new {url = "http://google.com"})
+            .When()
+              .Post(API + "/urls")
+            .Then()
+              .TestStatus("test status", status => status == 200)
+              .Assert("test status");
+        } 
+        [Fact]           
+        public void Test4(){
+            new RestAssured()
+            .Given()
+              .Name("test post endpoint")
+              .Header("Content-Type","application/json")
+              .Body(new {url = "http://www.google.com"})
+            .When()
+              .Post(API + "/urls")
+            .Then()
+              .TestStatus("test status", status => status == 200)
+              .Assert("test status");
+            
+        }
+        [Fact]
+        public void Test5(){
+            new RestAssured()
+            .Given()
+              .Name("test post endpoint")
+              .Header("Content-Type","application/json")
+              .Body(new {url = "https://google.com"})
+            .When()
+              .Post(API + "/urls")
+            .Then()
+              .TestStatus("test status", status => status == 200)
+              .Assert("test status");
+        }
+        [Fact]
+        public void Test6(){
+            new RestAssured()
+            .Given()
+              .Name("test post endpoint")
+              .Header("Content-Type","application/json")
+              .Body(new {url = "https://www.google.com"})
+            .When()
+              .Post(API + "/urls")
+            .Then()
+              .TestStatus("test status", status => status == 200)
+              .Assert("test status");
+        }
+
+
+            
+        
+        
     }
 }
