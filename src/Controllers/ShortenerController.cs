@@ -16,9 +16,9 @@ namespace urlShortener.Controllers
 
         private bool ValidateUrl(string url){
             url = url.Trim();
-            Regex pattern = new Regex(@"^(?:((http(s)|ftp)://))?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$");
+            Regex pattern = new Regex(@"^(?:((http|ftp|https)://))?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$");
             Match match = pattern.Match(url);
-            if (match.Success == false) {   
+            if (match.Success == false || (url.Contains("..") || url.Contains("--") || url.Contains("_"))) {   
                 return false;
             }
             return true;
