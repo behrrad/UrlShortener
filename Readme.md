@@ -8,9 +8,15 @@ To get you a copy of the project up your system and to run and build it on your 
 
 ### Prerequisites
 
-Make sure you have Postgres installed. Then change directory to the root directory. The root directory holds the directories and the files that you have cloned. i.e.`./UrlConverter`
+Make sure you have Postgres installed. Clone the project and then change directory to the src directory.  i.e.`./src`
 
-To add new migration files and to update the database execute the following commands.
+```bas
+cd src
+```
+
+
+
+To add new migration files and to update the database execute the following commands while you're in src directory.
 
 ```bash
 dotnet ef migrations add urlshortener.DbMig1
@@ -19,7 +25,7 @@ dotnet ef database update
 
 ### Building and Running
 
-Go to the root directory and get all NuGet Packages with the following command.
+Go to the src directory and get all NuGet Packages with the following command.
 
 ```bash
 dotnet restore
