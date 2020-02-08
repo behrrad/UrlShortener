@@ -91,10 +91,46 @@ namespace tests
               .TestStatus("test status", status => status == 200)
               .Assert("test status");
         }
-
-
+        [Fact]
+        public void Test7(){
+            new RestAssured()
+            .Given()
+              .Name("test post endpoint")
+              .Header("Content-Type","application/json")
+              .Body(new {url = "https://www..google.com"})
+            .When()
+              .Post(API + "/urls")
+            .Then()
+              .TestStatus("test status", status => status == 400)
+              .Assert("test status");
+        }
+        [Fact]
+        public void Test8(){
+            new RestAssured()
+            .Given()
+              .Name("test post endpoint")
+              .Header("Content-Type","application/json")
+              .Body(new {url = "https://www.google--varzesh.com"})
+            .When()
+              .Post(API + "/urls")
+            .Then()
+              .TestStatus("test status", status => status == 400)
+              .Assert("test status");
+        }
             
-        
+        [Fact]
+        public void Test9(){
+            new RestAssured()
+            .Given()
+              .Name("test post endpoint")
+              .Header("Content-Type","application/json")
+              .Body(new {url = "https://www.varzesh3.com/behrad/mamad/vahid/سوال/reza.cs"})
+            .When()
+              .Post(API + "/urls")
+            .Then()
+              .TestStatus("test status", status => status == 200)
+              .Assert("test status");
+        }
         
     }
 }
